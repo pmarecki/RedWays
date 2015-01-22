@@ -30,8 +30,23 @@ timespec startCLK, stopCLK;
     printf("dt = %6.3f [ms]%s\n", (stopCLK.tv_sec - startCLK.tv_sec) * 1000. +\
         1. * (stopCLK.tv_nsec - startCLK.tv_nsec) / 1e6, (c))
 
-using namespace std;
-
+///////////////////////////////////////
+// Simple DSU
+const int DSIZE = 1e4;
+int par[DSIZE];   //set to -1
+int root(int v){
+  if (par[v]<0) return v;
+  else return par[v] = root(par[v]);
+}
+void merge(int x,int y){
+  x = root(x), y = root(y);
+  if (x==y) return;
+  if(par[y] < par[x]) // balancing the height of the tree
+    swap(x, y);
+  par[x] += par[y];
+  par[y] = x;
+}
+///////////////////////////////////////
 
 //simple sparse DSU
 unordered_map<int,int> Par;
