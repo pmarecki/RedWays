@@ -1,3 +1,2 @@
 # redWays
-Better-grade stuff
-(mostly tested, but check for yourself!)
+Algorithms for competitive-programming contests
