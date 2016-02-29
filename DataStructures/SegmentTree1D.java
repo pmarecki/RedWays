@@ -13,9 +13,14 @@ import java.util.Random;
  */
 
 class SegmentTree1d_max {
+    int[] t;
+
+    public SegmentTree1d_max(int n) {
+        t = new int[n * 2];
+    }
 
     //left, right inclusive
-    int query(int[] t, int left, int right) {
+    int query(int left, int right) {
         int n = t.length / 2;
         left += n;
         right += n;
@@ -32,7 +37,7 @@ class SegmentTree1d_max {
     }
 
     //add
-    void add(int[] t, int at, int value) {
+    void add(int at, int value) {
         int n = t.length / 2;
         at += n;
         t[at] += value;
@@ -41,15 +46,20 @@ class SegmentTree1d_max {
         }
     }
 
-    int at(int[] t, int x) {
-        return t[t.length/2+x];
+    int at(int at) {
+        return t[t.length/2+at];
     }
 }
 
-//todo: `t` should be internalized
 class SegmentTree1d_sum {
+    int[] t;
+
+    public SegmentTree1d_sum(int n) {
+        t = new int[n * 2];
+    }
+
     //left, right inclusive
-    int query(int[] t, int left, int right) {
+    int query(int left, int right) {
         int n = t.length / 2;
         left += n;
         right += n;
@@ -66,7 +76,7 @@ class SegmentTree1d_sum {
     }
 
     //add
-    void add(int[] t, int at, int value) {
+    void add(int at, int value) {
         int n = t.length / 2;
         at += n;
         t[at] += value;
@@ -85,25 +95,25 @@ class SegmentTree1d_sum {
 public class SegmentTree1D_Test {
     public static void main(String[] args) {
         int[] t = new int[16];   //0..7
-        SegmentTree1d_sum s = new SegmentTree1d_sum();
-        s.add(t, 4, 1);
-        s.add(t, 5, 2);
-        s.add(t, 4, -1);
-        
-        assertThat(s.query(t, 0, 5)).isEqualTo(2);
+        SegmentTree1d_sum s = new SegmentTree1d_sum(8);
+        s.add(4, 1);
+        s.add(5, 2);
+        s.add(4, -1);
+        assertThat(s.query(0, 5)).isEqualTo(2);
+
+        s = new SegmentTree1d_sum(8);
         Arrays.fill(t,0);
-        assertThat(s.query(t, 0, 7)).isEqualTo(0);
-        s.add(t, 0, 123);
-        assertThat(s.query(t, 0, 0)).isEqualTo(123);
+        assertThat(s.query(0, 7)).isEqualTo(0);
+        s.add(0, 123);
+        assertThat(s.query(0, 0)).isEqualTo(123);
 
-        Arrays.fill(t, 0);
-
+        s = new SegmentTree1d_sum(8);
         Random r = new Random();
         int[] tt = new int[8];
-        for (int i = 0; i < 8; i++) {
+        for (int at = 0; at < 8; at++) {
             int ii = r.nextInt(100);
-            tt[i] += ii;
-            s.add(t, i, ii);
+            tt[at] += ii;
+            s.add(at, ii);
         }
         for (int i = 0; i < 30; i++) {
             int le = r.nextInt(8);
@@ -114,7 +124,7 @@ public class SegmentTree1D_Test {
             for (int j = le; j <= ri; j++) {
                 sum += tt[j];
             }
-            assertThat(sum).isEqualTo(s.query(t, le, ri));
+            assertThat(sum).isEqualTo(s.query(le, ri));
         }
     }
 }
