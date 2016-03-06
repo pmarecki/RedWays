@@ -1,10 +1,12 @@
+package Prepared;
 
 import java.util.ArrayList;
 import java.util.List;
+import static org.assertj.core.api.Assertions.*;
 
 class AlgoZ {
     //res[] = how many chars of prefix of 's' can be fitted starting at `at`
-    public int[] solve(char[] s) {
+    public static int[] solve(char[] s) {
         int n = s.length;
         int[] z = new int[n];
         int L = 0, R = 0;
@@ -12,14 +14,16 @@ class AlgoZ {
             if (i > R) {
                 L = R = i;
                 while (R < n && s[R-L] == s[R]) R++;
-                z[i] = R-L; R--;
+                z[i] = R-L;
+                R--;
             } else {
                 int k = i-L;
                 if (z[k] < R-i+1) z[i] = z[k];
                 else {
                     L = i;
                     while (R < n && s[R-L] == s[R]) R++;
-                    z[i] = R-L; R--;
+                    z[i] = R-L;
+                    R--;
                 }
             }
         }
@@ -27,24 +31,27 @@ class AlgoZ {
     }
 
 
-    public List<Integer> findOccurances(String target, String pattern) {
+    public static Integer[] findOccurances(String target, String pattern) {
         String ss = pattern + "#" + target;
+        int m = pattern.length();
         int[] s = solve(ss.toCharArray());
         ArrayList<Integer> res = new ArrayList<>();
         for(int at = pattern.length(); at<ss.length();++at)
             if (s[at]==pattern.length()) res.add(at - pattern.length() - 1);
-        return res;
+        return res.toArray(new Integer[res.size()]);
     }
 
 
 }
 
 
-public class algoZ {
+public class AlgoZTest {
     public static void main(String[] args) {
-        String target = "BA";
-        String pattern = "A";
-        List<Integer> goodPos = new AlgoZ().findOccurances(target, pattern);
-        System.out.println(goodPos);
+        Integer[] goodPos = AlgoZ.findOccurances("BABA", "A");
+        assertThat(goodPos).isEqualTo(new int[]{1, 3});
+
+        goodPos = AlgoZ.findOccurances("a10b1a12b1","a12b1");
+        assertThat(goodPos).isEqualTo(new int[]{5});
+
     }
 }
