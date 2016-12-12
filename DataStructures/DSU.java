@@ -1,4 +1,8 @@
-import java.util.Arrays;
+package Prepared.DataStructures;
+import java.util.*;
+
+import static javax.swing.UIManager.put;
+
 
 class Dsu {
     private int[] parent;
@@ -33,10 +37,16 @@ class Dsu {
 
     //parent points to the root of the tree of each element;
     //for root elements, it gives the (-) number of elements in current subtree
-    int[] getParent() {
+    private int[] getParent() {
         return parent;
     }
 
+    public int size() {
+        return parent.length;
+    }
+    public int[] getParentArray() {
+        return parent;
+    }
 }
 
 /**
@@ -48,18 +58,48 @@ class Dsu {
  */
 
 
+class DsuUtils {
+    //n : size to process
+    public static Map<Integer,Set<Integer>> gatherComponents(Dsu dsu, int n) {
+        Map<Integer, Set<Integer>> m = new TreeMap<>();
+        for (int i = 0; i < n; i++) {
+            int rt = dsu.root(i);
+            if (!m.containsKey(rt)) m.put(rt, new HashSet<>());
+            m.get(rt).add(i);
+        }
+        return m;
+    }
+}
+
 
 public class DsuTest {
     public static void main(String[] args) {
-        Dsu d = new Dsu(10);    //elems 0..9
-        d.merge(0, 1);
-        d.merge(0, 2);
-        d.merge(0, 3);
-        d.merge(5, 6);
-        d.merge(6, 9);
-        System.out.println(d.root(0));      //0
-        System.out.println(d.root(5));      //5
-        System.out.println(d.elems(0));     //4
-        System.out.println(d.root(8));      //8
+        Dsu dsu = new Dsu(10);    //elems 0..9
+        dsu.merge(0, 1);
+        dsu.merge(0, 2);
+        dsu.merge(0, 3);
+        dsu.merge(5, 6);
+        dsu.merge(6, 9);
+
+        System.out.println(dsu.root(0));      //0
+        System.out.println(dsu.root(1));      //0
+        System.out.println(dsu.root(2));      //0
+        System.out.println(dsu.root(3));      //0
+        System.out.println(dsu.root(4));      //4
+        System.out.println(dsu.root(5));      //5
+        System.out.println(dsu.root(6));      //5
+        System.out.println(dsu.root(7));      //7
+        System.out.println(dsu.root(8));      //8
+        System.out.println(dsu.root(9));      //5
+
+        System.out.println(dsu.elems(0));     //4
+        System.out.println(dsu.elems(5));     //3
+        System.out.println(dsu.elems(7));     //1
+
+        System.out.println("--------");
+
+        for(Set<Integer> s : DsuUtils.gatherComponents(dsu,10).values()) {
+            System.out.println(s);
+        }
     }
 }
