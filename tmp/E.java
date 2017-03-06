@@ -1,50 +1,65 @@
-package wykop;
+//Coloring; 
+// p[c] : parent of word c
+// s[u] : word corresponding to source u
 
+/**
+ * Structure: 
+ * - loop sources
+ * - loop possible sons, !visited yet
+ *      * if son has no parent, assign it (set p<->s association, return true)
+ *      * if son has parent, and dfs(this_parent) is true --> assign it (p<->s), return true
+ *
+ * Task: propose simple graph, implement, store implementation
+ *
+ */
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+using namespace std;
+#define rep(i,a,n) for (int i=a;i<n;i++)
+#define per(i,a,n) for (int i=n-1;i>=a;i--)
+#define pb push_back
+#define mp make_pair
+#define all(x) (x).begin(),(x).end()
+#define fi first
+#define se second
+#define SZ(x) ((int)(x).size())
+typedef vector<int> VI;
+typedef long long ll;
+typedef pair<int,int> PII;
+const ll mod=1000000007;
+ll powmod(ll a,ll b) {ll res=1;a%=mod; assert(b>=0); for(;b;b>>=1){if(b&1)res=res*a%mod;a=a*a%mod;}return res;}
+// head
 
-
-public class A {
-    static int gcd(int a, int b) {
-        return (a != 0) ? gcd(b % a, a) : b;
-    }
-
-    static int f(int n) {
-        int ans = 0;
-        for (int i = 1; i <= n / 2; i++) {
-            int j = n - i;
-            if (gcd(i,j)==1) ++ans;
-        }
-        return ans;
-    }
-
-    static int g(int n) {
-        Set<Integer> divs = new HashSet<>();
-        for (int i = 1; i <= (int)(Math.sqrt(n)+1); i++) {
-            if (n%i==0) divs.add(i);
-        }
-        if (n!=0) divs.add(n);
-        int ans = 0;
-        for(int d : divs) ans += f(n / d);
-        return ans;
-    }
-
-
-    public static void main(String[] args) {
-//        System.out.println(gcd(2,6));
-//        System.out.println(f(13));
-//        System.out.println(g(10));
-
-        int n = 666666;
-        for (int i = 0; i < 40; i++) {
-            if (i%2==0) n = g(n);
-            else n = f(n);
-            System.out.println(String.format("k=%2d  \t%8d", i, n));
-        }
-
-    }
-
+const int N=1010;
+int n,val[N][2];
+char a[30],b[30];
+string g[N][2],s[N];
+map<string,int> vis,p;
+int dfs(int u) {
+	rep(v,0,2) if (val[u][v]&&!vis[g[u][v]]) {
+		string c=g[u][v];
+		vis[c]=1;
+		if (p[c]==0||dfs(p[c])) { p[c]=u; s[u]=c; return 1;}
+	}
+	return 0;
+}
+int main() {
+	scanf("%d",&n);
+	rep(i,1,n+1) {
+		scanf("%s%s",a,b);
+		g[i][0]=string{a[0],a[1],a[2]};
+		g[i][1]=string{a[0],a[1],b[0]};
+	}
+	rep(i,1,n+1) {
+		val[i][0]=val[i][1]=1;
+		rep(j,1,n+1) if (i!=j&&g[i][0]==g[j][0]) {
+			val[i][0]=0; break;
+		}
+		vis.clear();
+		if (!dfs(i)) {
+			puts("NO");
+			return 0;
+		}
+	}
+	puts("YES");
+	rep(i,1,n+1) printf("%s\n",s[i].c_str());
 }
