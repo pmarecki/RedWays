@@ -1,3 +1,5 @@
+//http://codeforces.com/contest/766/problem/E
+
 #include <stdio.h>
 #include <algorithm>
 #include <vector>
