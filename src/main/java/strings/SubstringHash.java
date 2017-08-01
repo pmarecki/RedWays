@@ -88,6 +88,12 @@ public class SubstringHash {
         }
         return res;
     }
+    
+    //zero-based
+    boolean substringEqual(int from1, int from2, int len) {
+        ++from1; ++from2;
+        return hash(from1 - 1, from1 + len - 1).equals(hash(from2 - 1, from2 + len - 1));
+    }
 
 
     public static void main(String[] args) {
