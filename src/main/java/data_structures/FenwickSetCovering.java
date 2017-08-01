@@ -1,4 +1,4 @@
-package Wykopki;
+package data_structures;
 
 import java.util.*;
 
@@ -57,7 +57,7 @@ class Fenwick {
 }
 
 
-public class A {
+ class A {
     public static void main(String[] args) {
         Fenwick f = new Fenwick(200);
         f.add(2, 4);

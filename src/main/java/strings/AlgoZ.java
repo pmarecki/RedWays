@@ -1,7 +1,7 @@
-package Prepared;
+package strings;
 
 import java.util.ArrayList;
-import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 
 class AlgoZ {
@@ -42,16 +42,4 @@ class AlgoZ {
     }
 
 
-}
-
-
-public class AlgoZTest {
-    public static void main(String[] args) {
-        Integer[] goodPos = AlgoZ.findOccurances("BABA", "A");
-        assertThat(goodPos).isEqualTo(new int[]{1, 3});
-
-        goodPos = AlgoZ.findOccurances("a10b1a12b1","a12b1");
-        assertThat(goodPos).isEqualTo(new int[]{5});
-
-    }
 }

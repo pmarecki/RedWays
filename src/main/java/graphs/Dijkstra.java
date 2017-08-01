@@ -1,3 +1,4 @@
+package graphs;
 
 import java.util.*;
 
@@ -54,8 +55,7 @@ class Dijkstra {
 /**
  * Usage:
  */
-
-public class DijkstraUsage {
+class DijkstraUsage {
     public static void main(String[] args) {
         int n = 5;  //nodes
         int m = 6;  //edges

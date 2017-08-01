@@ -1,4 +1,4 @@
-package prepared.graphs;
+package data_structures;
 
 import java.util.Arrays;
 

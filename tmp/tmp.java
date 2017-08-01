@@ -35,7 +35,7 @@ public class Matcher {
         Arrays.fill(p, -1);
         Arrays.fill(s, -1);
 
-        //Algo
+        //strings
         for (int i = 0; i < 3; i++) {
             vis = new boolean[10];
             if (!dfs(i)) {

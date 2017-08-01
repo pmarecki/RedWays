@@ -32,7 +32,7 @@ class F2 {
 
 }
 
-public class AA {
+class AA {
     public static void main(String[] args) {
         F2 f = new F2();
         f.update(5, 5, 1);

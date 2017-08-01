@@ -1,4 +1,4 @@
-package Prepared;
+package data_structures;
 
 import static org.assertj.core.api.Assertions.*;
 import java.util.Arrays;
@@ -92,7 +92,7 @@ class SegmentTree1d_sum {
 
 
 
-public class SegmentTree1D_Test {
+class SegmentTree1D_Test {
     public static void main(String[] args) {
         int[] t = new int[16];   //0..7
         SegmentTree1d_sum s = new SegmentTree1d_sum(8);
