@@ -34,6 +34,7 @@ public class SubstringHashTest {
         sh_rev.init(g.toCharArray(), 5);
 
         assertThat(sh.hash(0, 5)).isEqualTo(sh_rev.hash(0, 5));
+        assertThat(sh.substringEqual(0, 3, 2));
     }
 
 }
