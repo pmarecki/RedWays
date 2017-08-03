@@ -3,6 +3,9 @@ package strings;
 import java.util.Arrays;
 
 /**
+ * Code by anta; from (C) http://codeforces.com/contest/514/standings
+ * Need 3 hashes to avoid colissions.
+ *
  * 1-based hash
  * preh[s] = b^6 s1 + b^5 s2 + b^4 s3 + b^3 s4 + b^2 s5 + b^1 s6 +s7
  *
@@ -11,11 +14,18 @@ import java.util.Arrays;
  * hash(0,3) = b^2 s1 + b^1 s2 + s3
  *
  * hash(4,7) = b^2 s5 + b^1 s6 + s7
+ *
+ *
+ * Performance:
+ * 200 * 10^6 ops = 1s
+ *
+ * hash: 10 ops
+ * equal(i,j,len) -> 20ops
  */
 public class SubstringHash {
     static int NMODS = 1;
-    long MOD[] =  {1000_000_007L, 2147_483_647L, 2147_483_629L, 2147_483_587L };
-    long BASE[] = {298_564_927L, 2147_484_007L};  //todo: check values beyond [0]
+    long[] MOD =  {1000_000_007L, 2147_483_647L};
+    long[] BASE = {298_564_927L, 2147_484_007L};
     Hash[] powh, preh;
 
     class Hash {
@@ -64,12 +74,13 @@ public class SubstringHash {
 
         //cache polynomial hashes
         preh[0] = new Hash();
-        for(int i = 0; i < n; i ++) for(int k = 0; k < NMODS; ++ k) {
+        for(int i =  0; i < n; i ++) for(int k = 0; k < NMODS; ++ k) {
             preh[i+1].h[k] = (preh[i].h[k] * BASE[k] % MOD[k] + s[i]) % MOD[k];
         }
     }
 
     //hash of (i,j]; full= hash(0,n); 1-based (s1 ... sn)
+    //10 ops for NMODS=2
     Hash hash(int i, int j) {
         Hash res = new Hash();
         for(int k = 0; k < NMODS; ++ k) {
@@ -88,12 +99,14 @@ public class SubstringHash {
         }
         return res;
     }
-    
+
     //zero-based
+    //20 ops for NMODS=2
     boolean substringEqual(int from1, int from2, int len) {
         ++from1; ++from2;
         return hash(from1 - 1, from1 + len - 1).equals(hash(from2 - 1, from2 + len - 1));
     }
+
 
 
     public static void main(String[] args) {
